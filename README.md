@@ -10,8 +10,8 @@ Prerequisites
 
 Tooling and Artifacts
 
-•	fileproc.sh: bash shell script to output two fields, the relative launch time and the elapsed between cURL’s time of initial connect and the first bytes of returned data.
-•	filetrip.sh: bash shell script to output two fields, the relative launch time and the elapsed for cURL’s entire round trip.
+•	postimage-proc.sh: bash shell script to output two fields, the relative launch time and that elapsed between cURL’s time of initial connect and the first bytes of returned data. (Requires CURLHDR and CURLURL enviroment variable setup before use; see 'Run the test' below.)
+•	postimage-trip.sh: bash shell script to output two fields, the relative launch time and the elapsed for cURL’s entire round trip. (Requires CURLHDR and CURLURL enviroment variable setup before use; see 'Run the test' below.)
 •	timeseries.sh: bash shell script to output two fields, the relative (input) launch time and the delay to introduce since the last one.
 •	images subdirectory: PNG files for model input; any order or quantity, as picking will be done by random.
 •	imagepaths.txt file: catalog of images subdirectory, made via
@@ -25,7 +25,33 @@ Procedure Examples
 
 •	Run the test:
 
-./fileproc.sh testcase.in imagepaths.txt > testcase.out
+Initialize two environment variables with target-specific header and URL information to be used in conjunction with the scripts' cURL commands (nonsense examples shown):
+
+export CURLHDR="Host: something.somewhere.com"
+export CURLURL="https://10.20.30.40:12345/processme"
+
+A CURLURL will always be needed, but if no supplemental header information applies, set CURLHDR to something harmless, as it can't be null:
+
+export CURLHDR="."
+
+So, once the above is done, a look at the variables should appear like this:
+
+env | grep CURL should give:
+
+CURLHDR=Host: something.somewhere.com or CURLHDR=.
+CURLURL=https://10.20.30.40:12345/processme
+
+Note that the quotes didn't come through, and that's fine and proper.
+
+And now things should be ready to go. When targets change later, the exports can be redone appropriately.
+
+Now invoke either the "processing time" or "round trip" shell script as shown:
+
+./postimage-proc.sh testcase.in imagepaths.txt > testcase.out
+
+		-- or --
+
+./postimage-trip.sh testcase.in imagepaths.txt > testcase.out
 
 •	Sort the output:
 
