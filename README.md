@@ -60,10 +60,17 @@ sort -n -s testcase.out > testcase.srt
 •	Plot the sorted output:
 
 gnuplot
+
 gnuplot> set term png
+
 gnuplot> set output ‘testcase.png’
+
 gnuplot> set title ‘Testcase: 20 sources, 0.5 spacing, 5 minutes’
+
 gnuplot> set xlabel ‘Elapsed (sec)’
+
 gnuplot> set ylabel ‘cURL File Processing (sec)’
+
 gnuplot> plot ‘testcase.srt’ with points pt 9
+
 gnuplot> quit
